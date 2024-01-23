@@ -45,21 +45,26 @@ app.post('/signin',(req,res)=>{
 
 app.post('/register',(req,res)=>{
     const {name, email, password}= req.body;
-    db('users')
-    .returning('*')    
+    const saltRounds = 10;
+   const hashedPassword = bcrypt.hashSync(password,saltRounds);
+   console.log(hashedPassword);
+  db.transaction((trx)=>{
+    return trx('login')
     .insert({
-        name:name,
-        email:email,
-        joined: new Date()
+        email,hash:hashedPassword
     })
-    .then(data=> res.json(data[0]))
+    .returning('*')
+    .then(data=>{
+       return trx('users').insert({name,email:data[0].email,joined: new Date()}).returning('*')
+    })
+    .then(user=>{
+     return res.json(user[0]);
+    })
     .catch(err=>{
-        console.log(err,'error adding user')
-        res.status(400).json('error adding the user!')
+        console.log('error adding the user to database');
+        res.json('error adding the user!!')
     })
-    
-
-
+  })
 })
 
 
