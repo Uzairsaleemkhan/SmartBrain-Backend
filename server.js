@@ -13,36 +13,41 @@ const db = require('knex')({
     }
 });
 
-const database =  {
-    users:[
-        {
-            name:'bais',
-            email:'bais@gmail.com',
-            password:'abumusal',
-            joined:'2001-11-11',
-            id:'1222',
-            entries:0
-        }
-    ]
-}
-
 app.use(cors());
 app.use(bodyParser.json());
 app.get('/',(req,res)=>{
    res.json(database.users);   
 })
-
+// SIGNIN END POINT
 app.post('/signin',(req,res)=>{
-    if(req.body.email===database.users[0].email&&  
-        req.body.password===database.users[0].password){
-            res.json(database.users[0]);
+   const {email,password} = req.body;
+    db.select('*').from('login').where({email:email})
+    .then(resp=>{
+        if(resp[0]){
+           if(bcrypt.compareSync(password,resp[0].hash)){
+                db('*').from('users').where({email:email})
+                .then(user=>{
+                    return res.json(user[0]);
+                })
+                .catch(err=>{
+                    return res.status(400).json('error retrieving the user data!`')
+                })
+           }
+           else{
+            return res.status(400).json('password is incorrect!!')
+           }
         }
-    else{
-        res.status(400).json('error logging in!')
-    }
+        else{
+            return res.status(400).json('email not found!')
+        }
+    })
+    .catch(err=>{
+        return res.status(400).json('error doing the signin'+err)
+    })
+
 })
 
-
+// REGISTER END POINT
 app.post('/register',(req,res)=>{
     const {name, email, password}= req.body;
     const saltRounds = 10;
