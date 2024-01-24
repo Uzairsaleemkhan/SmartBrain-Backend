@@ -10,10 +10,11 @@ const signInController = require('./controllers/signin');
 const db = require('knex')({
     client:'pg',
     connection:{
-        host:'dpg-cmol9jun7f5s73d6440g-a.oregon-postgres.render.com',
+        host:'dpg-cmol9jun7f5s73d6440g-a',
         user:'uzair',
         password:'TNRlFj5q01jMfZtL1dbHGuwWgPxD4Rdv',
-        database:'smartbrain_gg8f'
+        database:'smartbrain_gg8f',
+        
     }
 });
 const corsOptions ={
