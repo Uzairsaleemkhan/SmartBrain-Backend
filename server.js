@@ -10,10 +10,10 @@ const signInController = require('./controllers/signin');
 const db = require('knex')({
     client:'pg',
     connection:{
-        host:'127.0.0.1',
-        user:'postgres',
-        password:'test',
-        database:'smartbrain'
+        host:'dpg-cmol9jun7f5s73d6440g-a.oregon-postgres.render.com',
+        user:'uzair',
+        password:'TNRlFj5q01jMfZtL1dbHGuwWgPxD4Rdv',
+        database:'smartbrain_gg8f'
     }
 });
 
@@ -38,7 +38,7 @@ app.post('/detectimage',imageController.detectImage);
 
 
 
-app.listen(3000,()=>{
+app.listen(process.env?.PORT||3000,()=>{
     console.log('app is listening on port 3000...')
     
 })
