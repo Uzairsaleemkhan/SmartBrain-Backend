@@ -16,7 +16,9 @@ const db = require('knex')({
         database:'smartbrain_gg8f'
     }
 });
-
+const corsOptions ={
+    origin :'https://smartbrainapp-7qdz.onrender.com'
+}
 app.use(cors());
 app.use(bodyParser.json());
 // SIGNIN END POINT
