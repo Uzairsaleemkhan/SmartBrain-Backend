@@ -17,7 +17,7 @@ const db = require('knex')({
     }
 });
 const corsOptions ={
-    origin :'https://smartbrainapp-7qdz.onrender.com'
+    origin :'https://smartbrainapp-7qdz.onrender.com/'
 }
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
