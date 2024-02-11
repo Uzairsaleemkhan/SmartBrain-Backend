@@ -25,6 +25,7 @@ const corsOptions ={
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 // SIGNIN END POINT
+app.get('/test',(req,res)=>{res.send('hello')})
 app.post('/signin',signInController.handleSignin(db,bcrypt));
 // REGISTER END POINT
 app.post('/register',registerController.handleRegister(bcrypt,db));
